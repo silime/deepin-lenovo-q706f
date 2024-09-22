@@ -53,6 +53,12 @@ jobs:
         run: |
           sudo bash build.sh
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepin-desktop-aarch64-latest
+          path: rootfs/deepin-*.tar.xz
+
       - name: Read version
         id: read_version
         run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
