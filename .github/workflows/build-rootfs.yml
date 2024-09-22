@@ -67,4 +67,4 @@ jobs:
           draft: false
           prerelease: true
           files: |
-            rootfs/deepin-*.tar.gz
+            rootfs/deepin-*.tar.xz

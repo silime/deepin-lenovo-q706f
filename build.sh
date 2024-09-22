@@ -33,8 +33,8 @@ function build_rootfs() {
 
     # 生成压缩包
     pushd $OUT_DIR
-    rm -rf $dist_name-$TARGET-rootfs-$arch.tar.gz
-    sudo tar -zcf $dist_name-$TARGET-rootfs-$arch.tar.gz -C $ROOTFS .
+    rm -rf $dist_name-$TARGET-rootfs-$arch.tar.xz
+    tar -cf - -C $ROOTFS . | xz -T$(nproc) -z -  > $dist_name-$TARGET-rootfs-$arch.tar.xz
     # 删除临时文件夹
     sudo rm -rf  $ROOTFS
     popd
