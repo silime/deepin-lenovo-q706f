@@ -15,9 +15,15 @@ sed -i -E 's/#[[:space:]]?(zh_CN.UTF-8[[:space:]]+UTF-8)/\1/g' /etc/locale.gen
 locale-gen
 DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
 "
-
+# 安装自定义软件包
+run_in_chroot "
+curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/alsa-lenovo-q706f.deb && dpkg -i alsa-lenovo-q706f.deb
+curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/firmware-lenovo-q706f.deb && dpkg -i firmware-lenovo-q706f.deb
+curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/linux-lenovo-q706f.deb && dpkg -i linux-lenovo-q706f.deb
+rm *.deb
+"
 # 微软提供的 wsl 启动器会调用adduser,需要将 USERS_GID 和 USERS_GROUP 注释。
-run_in_chroot "sed -i -e 's/USERS_GID=100/#USERS_GID=100/' -e 's/USERS_GROUP=users/#USERS_GROUP=users/' /etc/adduser.conf"
+#run_in_chroot "sed -i -e 's/USERS_GID=100/#USERS_GID=100/' -e 's/USERS_GROUP=users/#USERS_GROUP=users/' /etc/adduser.conf"
 
 # 清理缓存
 run_in_chroot "

@@ -18,7 +18,7 @@ mkdir -p $OUT_DIR
 sudo apt update -y && sudo apt install -y curl git mmdebstrap qemu-user-static usrmerge systemd-container usrmerge
 # 开启异架构支持
 sudo systemctl start systemd-binfmt
-
+df -h
 function build_rootfs() {
     sudo mmdebstrap \
         --hook-dir=/usr/share/mmdebstrap/hooks/merged-usr \
@@ -31,15 +31,6 @@ function build_rootfs() {
         $ROOTFS \
         "${REPOS[@]}"
 
-    # 判断是否构建 wsl 的根文件系统，体内钾 wsl.conf 默认开启systemd
-    if [[ $TARGET=="wsl" ]];
-    then
-        sudo tee $ROOTFS/etc/wsl.conf <<EOF
-[boot]
-systemd=true
-EOF
-    fi
-
     # 生成压缩包
     pushd $OUT_DIR
     rm -rf $dist_name-$TARGET-rootfs-$arch.tar.gz
@@ -49,14 +40,14 @@ EOF
     popd
 }
 
-TARGET=wsl
+TARGET=server
 PACKAGES=`cat config/packages.list/$TARGET-packages.list | grep -v "^-" | xargs | sed -e 's/ /,/g'`
 for arch in amd64 arm64; do
     build_rootfs
 done
 
-TARGET=docker
+TARGET=desktop
 PACKAGES=`cat config/packages.list/$TARGET-packages.list | grep -v "^-" | xargs | sed -e 's/ /,/g'`
-for arch in amd64 arm64 riscv64 loong64 i386; do
+for arch in arm64; do
     build_rootfs
 done
