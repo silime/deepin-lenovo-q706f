@@ -17,7 +17,7 @@ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
 "
 # 安装自定义软件包
 run_in_chroot "
-curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/alsa-lenovo-q706f.deb && dpkg -i alsa-lenovo-q706f.deb
+curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/alsa-lenovo-q706f.deb && apt install -y ./alsa-lenovo-q706f.deb
 curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/firmware-lenovo-q706f.deb && dpkg -i firmware-lenovo-q706f.deb
 curl -sLO https://github.com/silime/ubuntu-lenovo-q706f/releases/download/packages/linux-lenovo-q706f.deb && dpkg -i linux-lenovo-q706f.deb
 rm *.deb

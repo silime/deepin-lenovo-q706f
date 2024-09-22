@@ -20,18 +20,18 @@ jobs:
     name: Build tar file
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          # 这个值是保留给系统的空间大小，之前设置太小，总会在安装依赖或者编译过程中报设备空间不足的错误而导致编译失败
-          root-reserve-mb: 4096
-          swap-size-mb: 512
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-codeql: 'true'
+      # - name: Maximize build space
+      #   uses: easimon/maximize-build-space@master
+      #   with:
+      #     # 这个值是保留给系统的空间大小，之前设置太小，总会在安装依赖或者编译过程中报设备空间不足的错误而导致编译失败
+      #     root-reserve-mb: 4096
+      #     swap-size-mb: 512
+      #     remove-dotnet: 'true'
+      #     remove-android: 'true'
+      #     remove-codeql: 'true'
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,11 +58,13 @@ jobs:
         run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
       - name: Upload file to release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ env.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{ env.VERSION }}"
+          body: ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          draft: false
           prerelease: true
-          title: "v${{ env.VERSION }}"
           files: |
             rootfs/deepin-*.tar.gz

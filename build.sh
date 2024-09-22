@@ -15,7 +15,7 @@ OUT_DIR=rootfs
 
 mkdir -p $OUT_DIR
 
-sudo apt update -y && sudo apt install -y curl git mmdebstrap qemu-user-static usrmerge systemd-container usrmerge
+sudo apt update -y && sudo apt install -y curl git mmdebstrap qemu-user-static usrmerge systemd-container
 # 开启异架构支持
 sudo systemctl start systemd-binfmt
 df -h
